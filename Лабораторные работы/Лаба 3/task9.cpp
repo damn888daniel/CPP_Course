@@ -1,143 +1,114 @@
-#include <iostream>
-#include <vector>
-#include <stdexcept>
+#include <iostream>   // Библиотека для ввода-вывода
+#include <vector>     // Библиотека для работы с динамическими массивами
+#include <stdexcept>  // Библиотека для работы с исключениями
 using namespace std;
 
+// Шаблонный класс Stack - реализация стека по принципу LIFO (Last In First Out)
 template<typename T>
 class Stack {
 private:
-    vector<T> elements;
-    int capacity;
+    vector<T> elements;  // Вектор для хранения элементов стека
+    int capacity;        // Максимальная вместимость стека
 
 public:
+    // Конструктор с параметром размера (по умолчанию 10)
     Stack(int size = 10) : capacity(size) {}
     
-    // TODO: Реализовать методы:
-    // - void push(const T& element)
-    
-    // Метод для добавления элемента в стек
     void push(const T& element) {
-        if (isFull()) {  // Проверка переполнения стека
+        if (isFull()) {
             throw overflow_error("Стек переполнен!");
         }
-        elements.push_back(element);  // Добавление элемента в конец вектора (вершина стека)
+        elements.push_back(element);  // Добавление в конец вектора (вершина стека)
     }
-    // Метод для извлечения элемента из стека
+    
     T pop() {
-        if (isEmpty()) {  // Проверка пустоты стека
+        if (isEmpty()) {
             throw underflow_error("Стек пуст!");
         }
-        T element = elements.back();  // Получение элемента с вершины стека
-        elements.pop_back();          // Удаление элемента с вершины
-        return element;               // Возврат извлеченного элемента
+        T element = elements.back();
+        elements.pop_back();
+        return element;
     }
     
-    // - T top() const
-    
-    // Метод для просмотра элемента на вершине стека без удаления
     T top() const {
-        if (isEmpty()) {  // Проверка пустоты стека
+        if (isEmpty()) {
             throw underflow_error("Стек пуст!");
         }
-        return elements.back();  // Возврат элемента с вершины без удаления
+        return elements.back();
     }
     
-    // - bool isEmpty() const
-    
-    // Метод для проверки, пуст ли стек
     bool isEmpty() const {
         return elements.empty();
     }
     
-    // - bool isFull() const
-    
-    // Метод для проверки, заполнен ли стек до максимальной вместимости
     bool isFull() const {
         return elements.size() >= capacity;
     }
     
-    // - int size() const
-    
-    // Метод для получения текущего размера стека
     int size() const {
         return elements.size();
     }
     
+    // Метод для вывода содержимого стека на экран
     void display() const {
         cout << "Стек: ";
-        for (const auto& elem : elements) {
+        for (const auto& elem : elements) {  // Перебор всех элементов стека
             cout << elem << " ";
         }
         cout << endl;
     }
 };
 
+// Шаблонный класс Queue - реализация очереди по принципу FIFO (First In First Out)
 template<typename T>
 class Queue {
 private:
-    vector<T> elements;
-    int capacity;
+    vector<T> elements;  // Вектор для хранения элементов очереди
+    int capacity;        // Максимальная вместимость очереди
 
 public:
+    // Конструктор с параметром размера (по умолчанию 10)
     Queue(int size = 10) : capacity(size) {}
     
-    // TODO: Реализовать методы:
-    // - void enqueue(const T& element)
-    
-    // Метод для добавления элемента в очередь
     void enqueue(const T& element) {
-        if (isFull()) {  // Проверка переполнения очереди
+        if (isFull()) {
             throw overflow_error("Очередь переполнена!");
         }
-        elements.push_back(element);  // Добавление элемента в конец очереди
+        elements.push_back(element);  // Добавление в конец очереди
     }
     
-    // - T dequeue()
-    
-    // Метод для извлечения элемента из очереди
     T dequeue() {
-        if (isEmpty()) {  // Проверка пустоты очереди
+        if (isEmpty()) {
             throw underflow_error("Очередь пуста!");
         }
-        T element = elements.front();       // Получение первого элемента очереди
-        elements.erase(elements.begin());   // Удаление первого элемента
-        return element;                     // Возврат извлеченного элемента
+        T element = elements.front();
+        elements.erase(elements.begin());  // Удаление первого элемента
+        return element;
     }
     
-    // - T front() const
-    
-    // Метод для просмотра первого элемента очереди без удаления
     T front() const {
-        if (isEmpty()) {  // Проверка пустоты очереди
+        if (isEmpty()) {
             throw underflow_error("Очередь пуста!");
         }
-        return elements.front();  // Возврат первого элемента без удаления
+        return elements.front();
     }
     
-    // - bool isEmpty() const
-    
-    // Метод для проверки, пуста ли очередь
     bool isEmpty() const {
         return elements.empty();
     }
     
-    // - bool isFull() const
-    
-    // Метод для проверки, заполнена ли очередь до максимальной вместимости
     bool isFull() const {
         return elements.size() >= capacity;
     }
     
-    // - int size() const
-    
-    // Метод для получения текущего размера очереди
     int size() const {
         return elements.size();
     }
     
+    // Метод для вывода содержимого очереди на экран
     void display() const {
         cout << "Очередь: ";
-        for (const auto& elem : elements) {
+        for (const auto& elem : elements) {  // Перебор всех элементов очереди
             cout << elem << " ";
         }
         cout << endl;
@@ -145,33 +116,26 @@ public:
 };
 
 int main() {
-    // TODO: Протестировать Stack и Queue с разными типами данных:
-    // - int
-    // - double
-    // - string
-    
+    // === ТЕСТИРОВАНИЕ СТЕКА С ЦЕЛЫМИ ЧИСЛАМИ ===
     cout << "=== Тестирование Stack<int> ===" << endl;
-    // Создание стека для целых чисел с максимальной вместимостью 5
     Stack<int> intStack(5);
     
-    // Добавление элементов в стек
     intStack.push(10);
     intStack.push(20);
     intStack.push(30);
     intStack.push(40);
     intStack.display();
     
-    cout << "Верхний элемент: " << intStack.top() << endl;  // Просмотр вершины стека
+    cout << "Верхний элемент: " << intStack.top() << endl;
     cout << "Размер: " << intStack.size() << endl;
     
-    // Извлечение элементов из стека
     cout << "Извлекаем: " << intStack.pop() << endl;
     cout << "Извлекаем: " << intStack.pop() << endl;
     intStack.display();
     cout << endl;
     
+    // === ТЕСТИРОВАНИЕ СТЕКА С ЧИСЛАМИ С ПЛАВАЮЩЕЙ ТОЧКОЙ ===
     cout << "=== Тестирование Stack<double> ===" << endl;
-    // Создание стека для чисел с плавающей точкой
     Stack<double> doubleStack(5);
     
     doubleStack.push(3.14);
@@ -184,8 +148,8 @@ int main() {
     doubleStack.display();
     cout << endl;
     
+    // === ТЕСТИРОВАНИЕ СТЕКА СО СТРОКАМИ ===
     cout << "=== Тестирование Stack<string> ===" << endl;
-    // Создание стека для строк
     Stack<string> stringStack(5);
     
     stringStack.push("Hello");
@@ -198,28 +162,26 @@ int main() {
     stringStack.display();
     cout << endl;
     
+    // === ТЕСТИРОВАНИЕ ОЧЕРЕДИ С ЦЕЛЫМИ ЧИСЛАМИ ===
     cout << "=== Тестирование Queue<int> ===" << endl;
-    // Создание очереди для целых чисел
     Queue<int> intQueue(5);
     
-    // Добавление элементов в очередь
     intQueue.enqueue(100);
     intQueue.enqueue(200);
     intQueue.enqueue(300);
     intQueue.enqueue(400);
     intQueue.display();
     
-    cout << "Первый элемент: " << intQueue.front() << endl;  // Просмотр первого элемента
+    cout << "Первый элемент: " << intQueue.front() << endl;
     cout << "Размер: " << intQueue.size() << endl;
     
-    // Извлечение элементов из очереди
     cout << "Извлекаем: " << intQueue.dequeue() << endl;
     cout << "Извлекаем: " << intQueue.dequeue() << endl;
     intQueue.display();
     cout << endl;
     
+    // === ТЕСТИРОВАНИЕ ОЧЕРЕДИ СО СТРОКАМИ ===
     cout << "=== Тестирование Queue<string> ===" << endl;
-    // Создание очереди для строк
     Queue<string> stringQueue(5);
     
     stringQueue.enqueue("First");
@@ -232,25 +194,28 @@ int main() {
     stringQueue.display();
     cout << endl;
     
+    // === ТЕСТИРОВАНИЕ ОБРАБОТКИ ПЕРЕПОЛНЕНИЯ ===
     cout << "=== Тестирование переполнения ===" << endl;
     try {
-        Stack<int> smallStack(2);  // Стек с малой вместимостью
+        Stack<int> smallStack(2);
         smallStack.push(1);
         smallStack.push(2);
         cout << "Стек заполнен. Попытка добавить еще..." << endl;
-        smallStack.push(3);  // Это вызовет исключение overflow_error
+        smallStack.push(3);  // Генерация исключения overflow_error
     } catch (const overflow_error& e) {
-        cout << "Исключение: " << e.what() << endl;  // Обработка исключения
+        cout << "Исключение: " << e.what() << endl;
     }
     
     cout << endl;
+    
+    // === ТЕСТИРОВАНИЕ ИЗВЛЕЧЕНИЯ ИЗ ПУСТОЙ СТРУКТУРЫ ===
     cout << "=== Тестирование извлечения из пустой структуры ===" << endl;
     try {
-        Queue<int> emptyQueue(5);  // Пустая очередь
+        Queue<int> emptyQueue(5);
         cout << "Попытка извлечь из пустой очереди..." << endl;
-        emptyQueue.dequeue();  // Это вызовет исключение underflow_error
+        emptyQueue.dequeue();  // Генерация исключения underflow_error
     } catch (const underflow_error& e) {
-        cout << "Исключение: " << e.what() << endl;  // Обработка исключения
+        cout << "Исключение: " << e.what() << endl;
     }
     
     return 0;
